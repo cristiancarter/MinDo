@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MinDo</title>
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="todo-app">
+        <h2>MinimalDo 📋</h2>
+        <div class="row">
+          <input type="text" id="inputBox" placeholder="Add your text" />
+          <select id="priorityBox" class="priority-select">
+            <option value="none">Select Priority</option>
+            <option value="urgent">Urgent</option>
+            <option value="important">Important</option>
+            <option value="today">Today</option>
+            <option value="other">Other</option>
+          </select>
+          <button onclick="addTask()">Add</button>
+        </div>
+        <ul id="list-container">
+          <!--? Tasks -->
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

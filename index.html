@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MinDo</title>
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <script src="script.js" defer></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="todo-app">
-        <h2>MinimalDo 📋</h2>
-        <div class="row">
-          <input type="text" id="inputBox" placeholder="Add your text" />
-          <select id="priorityBox" class="priority-select">
-            <option value="none">Select Priority</option>
-            <option value="urgent">Urgent</option>
-            <option value="important">Important</option>
-            <option value="today">Today</option>
-            <option value="other">Other</option>
-          </select>
-          <button onclick="addTask()">Add</button>
+</head>
+<body>
+  <div class="container">
+    <div class="todo-app">
+        <h1>MinimalDo <i class="fas fa-clipboard-list"></i></h1>
+        <div class="input-group">
+            <input type="text" id="inputBox" placeholder="Add your task" />
+            <select id="priorityBox" class="priority-select">
+                <option value="other">Priority</option>
+                <option value="urgent">Urgent</option>
+                <option value="important">Important</option>
+                <option value="today">Today</option>
+                <option value="other">Other</option>
+            </select>
+            <button onclick="addTask()" class="btn-add">
+                <i class="fas fa-plus"></i>
+            </button>
         </div>
-        <ul id="list-container">
-          <!--? Tasks -->
-        </ul>
-      </div>
+        <div id="taskGroups">
+            <!-- Tasks -->
+        </div>
     </div>
-  </body>
+</div>
+
+</body>
 </html>

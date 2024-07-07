@@ -1,90 +1,124 @@
 const inputBox = document.getElementById("inputBox");
-const priorityBox = document.getElementById("priorityBox");
-const listContainer = document.getElementById("list-container");
+        const priorityBox = document.getElementById("priorityBox");
+        const taskGroups = document.getElementById("taskGroups");
 
-function addTask() {
-  if (inputBox.value === "") {
-    alert("Please enter a task");
-  } else if (priorityBox.value === "none") {
-    alert("Please select a priority");
-  } else {
-    let li = document.createElement("li");
-    li.innerText = inputBox.value;
+        const priorities = ["urgent", "important", "today", "other"];
 
-    let span = document.createElement("span");
-    span.innerHTML = "\u00d7";
-    li.appendChild(span);
+        function addTask() {
+            if (inputBox.value === "") {
+                alert("Please enter a task");
+            } else {
+                const priority = priorityBox.value;
+                createTaskElement(inputBox.value, priority);
+                inputBox.value = "";
+                priorityBox.value = "other";
+                saveData();
+            }
+        }
 
-    let priorityLabel = document.createElement("span");
-    priorityLabel.className = "priority-label " + priorityBox.value;
-    priorityLabel.innerText = priorityBox.value.charAt(0).toUpperCase();
-    li.appendChild(priorityLabel);
+        function createTaskElement(taskText, priority) {
+            const taskElement = document.createElement("li");
+            taskElement.innerHTML = `
+                <span class="task-text">${taskText}</span>
+                <div class="actions">
+                    <button onclick="editTask(this.closest('li'))"><i class="fas fa-edit"></i></button>
+                    <button onclick="deleteTask(this.closest('li'))"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            `;
 
-    listContainer.appendChild(li);
+            const groupId = `${priority}-group`;
+            let group = document.getElementById(groupId);
 
-    inputBox.value = "";
-    priorityBox.value = "none";
+            if (!group) {
+                group = createTaskGroup(priority);
+            }
 
-    sortTasks();
-    saveData();
-  }
-}
+            const taskList = group.querySelector("ul");
+            taskList.appendChild(taskElement);
+            sortTasks(taskList);
+        }
 
-listContainer.addEventListener(
-  "click",
-  function (e) {
-    if (e.target.tagName === "LI") {
-      e.target.classList.toggle("checked");
-      saveData();
-    } else if (
-      e.target.tagName === "SPAN" &&
-      e.target.className.includes("priority-label")
-    ) {
-      showTooltip(e.target.parentElement, e.target.innerText.toLowerCase());
-    } else if (
-      e.target.tagName === "SPAN" &&
-      !e.target.className.includes("priority-label")
-    ) {
-      e.target.parentElement.remove();
-      saveData();
-    }
-  },
-  false
-);
+        function createTaskGroup(priority) {
+            const group = document.createElement("div");
+            group.className = "task-group";
+            group.id = `${priority}-group`;
+            group.innerHTML = `
+                <div class="group-header" onclick="toggleGroup(this.parentElement)">
+                    <i class="fas fa-chevron-down"></i>
+                    <h2>${priority.charAt(0).toUpperCase() + priority.slice(1)}</h2>
+                </div>
+                <div class="group-tasks">
+                    <ul></ul>
+                </div>
+            `;
+            taskGroups.appendChild(group);
+            return group;
+        }
 
-function saveData() {
-  localStorage.setItem("data", listContainer.innerHTML);
-}
+        function toggleGroup(group) {
+            const tasksDiv = group.querySelector(".group-tasks");
+            const icon = group.querySelector(".group-header i");
+            tasksDiv.classList.toggle("show");
+            icon.classList.toggle("fa-chevron-down");
+            icon.classList.toggle("fa-chevron-up");
+        }
 
-function showTask() {
-  listContainer.innerHTML = localStorage.getItem("data");
-  sortTasks();
-}
+        function editTask(li) {
+            const taskSpan = li.querySelector(".task-text");
+            const newText = prompt("Edit task:", taskSpan.textContent);
+            if (newText !== null && newText.trim() !== "") {
+                taskSpan.textContent = newText.trim();
+                saveData();
+            }
+        }
 
-function sortTasks() {
-  let tasks = Array.from(listContainer.getElementsByTagName("li"));
-  tasks.sort((a, b) => getPriority(b) - getPriority(a));
-  listContainer.innerHTML = "";
-  tasks.forEach((task) => listContainer.appendChild(task));
-}
+        function deleteTask(li) {
+            if (confirm("Are you sure you want to delete this task?")) {
+                const group = li.closest(".task-group");
+                li.remove();
+                if (group.querySelector("ul").children.length === 0) {
+                    group.remove();
+                }
+                saveData();
+            }
+        }
 
-function getPriority(task) {
-  if (task.querySelector(".priority-label")) {
-    const priority = task
-      .querySelector(".priority-label")
-      .innerText.toLowerCase();
-    switch (priority) {
-      case "urgent":
-        return 3;
-      case "important":
-        return 2;
-      case "today":
-        return 1;
-      default:
-        return 0;
-    }
-  }
-  return 0;
-}
+        taskGroups.addEventListener("click", function(e) {
+            if (e.target.tagName === "LI" || e.target.className === "task-text") {
+                const li = e.target.closest("li");
+                li.classList.toggle("checked");
+                saveData();
+            }
+        });
+
+        function saveData() {
+            localStorage.setItem("data", taskGroups.innerHTML);
+        }
+
+        function showTask() {
+            const savedData = localStorage.getItem("data");
+            if (savedData) {
+                taskGroups.innerHTML = savedData;
+                document.querySelectorAll(".task-group").forEach(group => {
+                    const tasksDiv = group.querySelector(".group-tasks");
+                    if (tasksDiv.children.length > 0) {
+                        tasksDiv.classList.add("show");
+                    }
+                });
+            } else {
+                priorities.forEach(createTaskGroup);
+            }
+        }
+
+        function sortTasks(taskList) {
+            const tasks = Array.from(taskList.children);
+            tasks.sort((a, b) => {
+                const textA = a.querySelector(".task-text").textContent.toLowerCase();
+                const textB = b.querySelector(".task-text").textContent.toLowerCase();
+                return textA.localeCompare(textB);
+            });
+            taskList.innerHTML = "";
+            tasks.forEach(task => taskList.appendChild(task));
+        }
 
 showTask();

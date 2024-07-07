@@ -1,179 +1,208 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Universal Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+    --primary-color: #8850e2;
+    --secondary-color: #100d5b;
+    --text-color: #ffffff;
+    --background-color: #1d1d1d;
+    --accent-color: #ff00c8;
 }
 
-html {
-  scroll-behavior: smooth;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: "Poppins", sans-serif, arial;
-  height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(250deg, var(--primary-color) 4%, var(--secondary-color) 96%);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Container Styles */
 .container {
-  width: 100%;
-  min-height: 100vh;
-  padding: 0.625rem;
-  background: linear-gradient(
-    250deg,
-    rgba(136, 80, 226, 1) 4%,
-    rgba(16, 13, 91, 1) 96%
-  );
+    width: 100%;
+    padding: 20px;
 }
 
-/* Todo App Styles */
 .todo-app {
-  width: 100%;
-  max-width: 33.75rem;
-  background-color: rgba(0, 0, 0, 0.38);
-  margin: 6.25rem auto 1.25rem;
-  padding: 2.5rem 1.875rem 4.375rem;
-  border-radius: 0.625rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.todo-app h2 {
-  color: #dfdfdf;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.25rem;
-  place-content: center;
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* Row Styles */
-.row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #1d1d1d;
-  border-radius: 1rem;
-  padding-left: 1.25rem;
-  margin-bottom: 1.5625rem;
+.input-group {
+    display: flex;
+    margin-bottom: 20px;
 }
 
-/* Form and Input Styles */
+input, select, button {
+    border: none;
+    outline: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
 input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  padding: 0.625rem;
-  font-weight: 1.75rem;
+    flex-grow: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
 }
 
 select {
-  border: none;
-  outline: none;
-  background: #1d1d1d;
-  color: #fff;
-  font-size: 1rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin-left: 0.625rem;
-  min-width: 7.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    margin-left: 10px;
+    cursor: pointer;
 }
 
-button {
-  border: none;
-  outline: none;
-  padding: 1rem 1.875rem;
-  background-color: #ff00c8;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 50rem 0rem 20rem 50rem;
-  margin-left: 0.625rem;
+.btn-add {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
 }
 
-/* List Styles */
-ul li {
-  list-style: none;
-  font-size: 1.0625rem;
-  padding: 0.75rem 0.5rem 0.75rem 3.125rem;
-  user-select: none;
-  cursor: pointer;
-  position: relative;
-  color: #ececec;
+.btn-add:hover {
+    background-color: #ff33d4;
 }
 
-ul li::before {
-  content: "";
-  position: absolute;
-  height: 1.75rem;
-  width: 1.75rem;
-  border-radius: 50%;
-  background-image: url(assets/unticked.svg);
-  background-size: cover;
-  background-position: center;
-  top: 0.75rem;
-  left: 0.5rem;
+.task-group {
+    margin-bottom: 20px;
 }
 
-ul li.checked {
-  color: #aeaeae;
-  text-decoration: line-through;
+.group-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
-ul li.checked::before {
-  background-image: url(assets/ticked.svg);
+.group-header h2 {
+    margin-left: 10px;
+    font-size: 18px;
 }
 
-ul li span {
-  position: absolute;
-  right: 0;
-  top: 0.3125rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1.375rem;
-  color: #ffffff;
-  line-height: 2.5rem;
-  text-align: center;
-  border-radius: 50%;
+.group-tasks {
+    display: none;
 }
 
-ul li span:hover {
-  background-color: #000000;
+.group-tasks.show {
+    display: block;
 }
 
-/* Priority Label Styles */
+ul {
+    list-style-type: none;
+}
+
+li {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px 15px 15px 50px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+    position: relative;
+}
+
+li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+li::before {
+    content: '';
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-image: url('assets/unticked.svg');
+    background-size: cover;
+    background-position: center;
+    top: 12px;
+    left: 15px;
+}
+
+li.checked::before {
+    background-image: url('assets/ticked.svg');
+}
+
+li.checked .task-text {
+    text-decoration: line-through;
+    color: #888;
+}
+
+li .task-text {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+li .actions {
+    display: flex;
+}
+
+li .actions button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+li .actions button:hover {
+    opacity: 1;
+}
+
 .priority-label {
-  position: absolute;
-  left: -3.125rem;
-  top: 0.3125rem;
-  font-size: 0.625rem;
-  font-weight: 600;
-  color: #fff;
-  border-radius: 0.625rem;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 10px;
 }
 
-.priority-label.urgent {
-  background-color: #ff5845;
-}
+.priority-label.urgent { background-color: #ff5845; }
+.priority-label.important { background-color: #ffa500; }
+.priority-label.today { background-color: #1e90ff; }
+.priority-label.other { background-color: #32cd32; }
 
-.priority-label.important {
-  background-color: #ffa500;
-}
+@media (max-width: 480px) {
+    .todo-app {
+        padding: 20px;
+    }
 
-.priority-label.today {
-  background-color: #1e90ff;
-}
+    h1 {
+        font-size: 24px;
+    }
 
-.priority-label.other {
-  background-color: #32cd32;
-}
+    .input-group {
+        flex-direction: column;
+    }
 
-/* Input Box Styles */
-#inputBox {
-  color: white;
-}
-
-#inputBox::placeholder {
-  color: rgba(255, 255, 255, 0.457);
+    input, select, .btn-add {
+        width: 100%;
+        margin: 5px 0;
+    }
 }
